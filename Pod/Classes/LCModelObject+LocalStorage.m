@@ -1,10 +1,23 @@
+// Created by Derrick Chao on 2016/11/28.
+// Copyright (c) 2017 Loopd Inc.
 //
-//  LCModelObject+LocalStorage.m
-//  Loopd
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
 //
-//  Created by Derrick Chao on 2016/11/28.
-//  Copyright © 2016年 Loopd Inc. All rights reserved.
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
 //
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
 
 #import <FMDB/FMDB.h>
 #import "LCModelObject+LocalStorage.h"
@@ -182,6 +195,31 @@
         if (completion) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 completion(fetchResult, nil);
+            });
+        };
+    }];
+}
+
+#pragma mark - Delete / Remove (async)
+
+- (void)deleteWithCompletion:(LCBoolResultBlock)completion {
+    FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:[self.class pathOfDB]];
+    NSString *tableName = NSStringFromClass(self.class);
+    
+    // delete all rows in the table
+    NSString *sql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE id=%@;", tableName, self.objectId];
+    
+    [queue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        BOOL success = [db executeStatements:sql];
+        if (!success) {
+            NSLog(@"deleteWithCompletion sql: %@", sql);
+            NSLog(@"deleteWithCompletion sql error: %@", [db lastErrorMessage]);
+            *rollback = YES;
+        }
+        
+        if (completion) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(success, nil);
             });
         };
     }];

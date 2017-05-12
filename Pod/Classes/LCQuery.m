@@ -1,10 +1,23 @@
+// Created by Derrick Chao on 2015/5/6.
+// Copyright (c) 2017 Loopd Inc.
 //
-//  LoopdRequest.m
-//  Loopd
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
 //
-//  Created by Derrick Chao on 2015/5/6.
-//  Copyright (c) 2015年 Loopd Inc. All rights reserved.
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
 //
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
 
 #import <AFNetworking/AFNetworking.h>
 #import "LCModelObject+LocalStorage.h"
@@ -18,7 +31,7 @@
 #define QueryBaseURL                        @"QueryBaseURL"
 
 @interface LCQuery ()
-@property (strong, nonatomic) Class targetClass;
+
 @end
 
 @implementation LCQuery
@@ -37,30 +50,44 @@
 
 #pragma mark - Init
 
-+ (instancetype)queryWithClass:(Class)class {
-    return [[self class] queryWithClass:class requestMethod:LCRequestMethodGET relatedPath:nil];
++ (instancetype)query {
+    return [[self class] queryWithRequestMethod:LCRequestMethodGET relatedPath:nil];
 }
 
-+ (instancetype)queryWithClass:(Class)class requestMethod:(LCRequestMethod)requestMethod {
-    return [[self class] queryWithClass:class requestMethod:requestMethod relatedPath:nil];
++ (instancetype)queryWithRequestMethod:(LCRequestMethod)requestMethod {
+    return [[self class] queryWithRequestMethod:requestMethod relatedPath:nil];
 }
 
-+ (instancetype)queryWithClass:(Class)class requestMethod:(LCRequestMethod)requestMethod relatedPath:(NSString *)relatedPath {
-    return [[self class] queryWithClass:class requestMethod:requestMethod relatedPath:relatedPath parameters:nil];
++ (instancetype)queryWithRequestMethod:(LCRequestMethod)requestMethod relatedPath:(NSString *)relatedPath {
+    return [[self class] queryWithRequestMethod:requestMethod relatedPath:relatedPath parameters:nil];
 }
 
-+ (instancetype)queryWithClass:(Class)class requestMethod:(LCRequestMethod)requestMethod relatedPath:(NSString *)relatedPath parameters:(NSDictionary *)parameters {
-    return [[LCQuery alloc] initWithClass:class requestMethod:requestMethod relatedPath:relatedPath parameters:parameters];
++ (instancetype)queryWithRequestMethod:(LCRequestMethod)requestMethod relatedPath:(NSString *)relatedPath parameters:(NSDictionary *)parameters {
+    
+    NSString *baseURL = [LCQuery baseURL];
+    NSString *requestUrl;
+    if ([relatedPath rangeOfString:@"http://"].location == NSNotFound && [relatedPath rangeOfString:@"https://"].location == NSNotFound) {
+        // relative path
+        requestUrl = [NSString stringWithFormat:@"%@%@", baseURL, relatedPath];
+    } else {
+        // absolute path
+        requestUrl = relatedPath;
+    }
+    
+    return [LCQuery queryWithRequestMethod:requestMethod url:requestUrl parameters:parameters];
 }
 
-- (instancetype)initWithClass:(Class)class requestMethod:(LCRequestMethod)requestMethod relatedPath:(NSString *)relatedPath parameters:(NSDictionary *)parameters {
++ (instancetype)queryWithRequestMethod:(LCRequestMethod)requestMethod url:(NSString *)url parameters:(NSDictionary *)parameters {
+    return [[LCQuery alloc] initWithRequestMethod:requestMethod url:url parameters:parameters];
+}
+
+- (instancetype)initWithRequestMethod:(LCRequestMethod)requestMethod url:(NSString *)url parameters:(NSDictionary *)parameters {
     
     self = [self init];
     
     if (self) {
-        self.targetClass = class;
         self.requestMethod = requestMethod;
-        self.relatedPath = relatedPath;
+        self.requestUrl = url;
         if (parameters) {
             [self.parameters setDictionary:parameters];
         }
@@ -72,7 +99,7 @@
 #pragma mark - Class Method
 
 + (void)setBaseURL:(NSString *)baseURL {
-     [LCSettings setSetting:baseURL forKey:QueryBaseURL];
+    [LCSettings setSetting:baseURL forKey:QueryBaseURL];
 }
 
 + (NSString *)baseURL {
@@ -80,24 +107,29 @@
 }
 
 #pragma mark Header
-+ (void)setDefaultValue:(NSString *)value forHeaderField:(NSString *)headerField {
-    NSMutableDictionary *defaultHeaderFields = [[[self class] defaultHeaderFields] mutableCopy];
+
++ (void)setDefaultHeaderValue:(NSString *)value forKey:(NSString *)key {
+    NSMutableDictionary *defaultHeaderValues = [[[self class] defaultHeaderValues] mutableCopy];
     
-    if (defaultHeaderFields == nil) {
-        defaultHeaderFields = [NSMutableDictionary new];
+    if (defaultHeaderValues == nil) {
+        defaultHeaderValues = [NSMutableDictionary new];
     }
     
-    [defaultHeaderFields setObject:value forKey:headerField];
+    [defaultHeaderValues setObject:value forKey:key];
     
-    [LCSettings setSetting:defaultHeaderFields forKey:QueryDefaultHeaderFieldKey];
+    [LCSettings setSetting:defaultHeaderValues forKey:QueryDefaultHeaderFieldKey];
 }
 
-+ (void)setDefaultHeaderFields:(NSDictionary *)headerFields {
-    [LCSettings setSetting:headerFields forKey:QueryDefaultHeaderFieldKey];
++ (void)setDefaultHeaderValues:(NSDictionary *)values {
+    [LCSettings setSetting:values forKey:QueryDefaultHeaderFieldKey];
 }
 
-+ (NSDictionary *)defaultHeaderFields {
++ (NSDictionary *)defaultHeaderValues {
     return [LCSettings settingForKey:QueryDefaultHeaderFieldKey];
+}
+
++ (void)cleanDefaultHeader {
+    
 }
 
 #pragma mark Parameters
@@ -130,17 +162,7 @@
 
 - (void)sendWithCompletion:(LCResultBlock)completion {
     
-    if (self.targetClass == nil) {
-        NSLog(@"[ERROR]: targetClass should not be nil!!!");
-        if (completion) {
-            NSError *error =  [NSError errorWithDomain:@"" code:400 userInfo:@{@"message": @"[ERROR]: targetClass should not be nil!!!"}];
-            completion(nil, error);
-        }
-        
-        return;
-    }
-    
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:[self.class baseURL]]];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     
     // add acceptableContentType
@@ -149,12 +171,12 @@
     manager.responseSerializer.acceptableContentTypes = acceptableContentTypes;
     
     // security policy
+    NSString *baseURLScheme = [NSURL URLWithString:[self.class baseURL]].scheme;
     NSString *cerFileName = [LCSettings settingForKey:QueryCertFileNameKey];
-    if (cerFileName != nil) {
+    if (cerFileName != nil && [baseURLScheme isEqualToString:@"https"]) {
         AFSecurityPolicy *policy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModePublicKey];
         manager.securityPolicy = policy;
-        // if you install pods with use_framework!.
-        // you need add below to make you pass the SSH connection.
+        
         NSString *pathToCert = [[NSBundle mainBundle]pathForResource:cerFileName ofType:@"cer"];
         NSData *localCertificate = [NSData dataWithContentsOfFile:pathToCert];
         manager.securityPolicy.pinnedCertificates = [NSSet setWithObject:localCertificate];
@@ -163,16 +185,16 @@
     NSString *requestMethod;
     
     switch (self.requestMethod) {
-            case LCRequestMethodGET:
+        case LCRequestMethodGET:
             requestMethod = @"GET";
             break;
-            case LCRequestMethodPOST:
+        case LCRequestMethodPOST:
             requestMethod = @"POST";
             break;
-            case LCRequestMethodPUT:
+        case LCRequestMethodPUT:
             requestMethod = @"PUT";
             break;
-            case LCRequestMethodDELETE:
+        case LCRequestMethodDELETE:
             requestMethod = @"DELETE";
             break;
             
@@ -188,30 +210,22 @@
     
     // compose request url
     NSMutableURLRequest *request;
-    NSString *baseURL = [LCQuery baseURL];
-    NSString *urlString;
-    if ([self.relatedPath rangeOfString:@"http://"].location == NSNotFound && [self.relatedPath rangeOfString:@"https://"].location == NSNotFound) {
-        // relative path
-        urlString = [NSString stringWithFormat:@"%@%@", baseURL, self.relatedPath]; // [[NSURL URLWithString:path relativeToURL:baseURL] absoluteString];
-    } else {
-        // absolute path
-        urlString = self.relatedPath;
-    }
+    NSString *urlString = self.requestUrl;
     
     // add default parameters
-    NSDictionary *defaultParameters = [LCQuery defaultParameters];
-    if (defaultParameters != nil) {
-        for (NSString *key in defaultParameters.allKeys) {
-            NSString *parameterValue = [defaultParameters[key] description];
-            
-            // Skip, if the key already in the current parameters.
-            if (self.parameters[key] == nil) {
-                [self.parameters setObject:parameterValue forKey:key];
-            }
-        }
-    }
+    //    NSDictionary *defaultParameters = [LCQuery defaultParameters];
+    //    if (defaultParameters != nil) {
+    //        for (NSString *key in defaultParameters.allKeys) {
+    //            NSString *parameterValue = [defaultParameters[key] description];
+    //
+    //            // Skip, if the key already in the current parameters.
+    //            if (self.parameters[key] == nil) {
+    //                [self.parameters setObject:parameterValue forKey:key];
+    //            }
+    //        }
+    //    }
     
-    if (!self.appendData) {
+    if (!self.appendData && [urlString rangeOfString:@"tapcrowd.com"].location == NSNotFound) {
         request = [manager.requestSerializer requestWithMethod:requestMethod
                                                      URLString:urlString
                                                     parameters:self.parameters
@@ -221,31 +235,41 @@
                                                                   URLString:urlString
                                                                  parameters:self.parameters
                                                   constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-                                                      [formData appendPartWithFileData:self.appendData name:@"file" fileName:@"file.png" mimeType:@"image/png"];
+                                                      if (self.appendData) {
+                                                          [formData appendPartWithFileData:self.appendData name:@"file" fileName:@"file.png" mimeType:@"image/png"];
+                                                      }
                                                   }
                                                                       error:nil];
     }
     
     NSLog(@"[%@] %@", requestMethod, urlString);
     NSLog(@"\nparameters: %@", self.parameters);
+    if (request.HTTPBody) {
+        NSDictionary *body = [NSJSONSerialization JSONObjectWithData:request.HTTPBody
+                                                             options:0
+                                                               error:nil];
+        NSLog(@"\request body: %@", body);
+    }
     
     // add header
     // installation id
-    NSDictionary *defaultHeader = [LCQuery defaultHeaderFields];
-    NSLog(@"defaultHeader: %@", defaultHeader);
-    if (defaultHeader != nil) {
-        for (NSString *key in defaultHeader.allKeys) {
-            NSString *value = [defaultHeader[key] description];
-            
-            // Skip, if the key already in the current parameters.
-            if (self.header[key] == nil) {
-                [self.header setObject:value forKey:key];
+    if ([urlString rangeOfString:@"tapcrowd.com"].location == NSNotFound) {
+        NSDictionary *defaultHeader = [LCQuery defaultHeaderValues];
+        NSLog(@"defaultHeader: %@", defaultHeader);
+        if (defaultHeader != nil) {
+            for (NSString *key in defaultHeader.allKeys) {
+                NSString *value = [defaultHeader[key] description];
+                
+                // Skip, if the key already in the current parameters.
+                if (self.header[key] == nil) {
+                    [self.header setObject:value forKey:key];
+                }
             }
         }
-    }
-    
-    if (self.header.allKeys.count > 0) {
-        [self handleHeader:self.header forRequest:request];
+        
+        if (self.header.allKeys.count > 0) {
+            [self handleHeader:self.header forRequest:request];
+        }
     }
     
     NSURLSessionDataTask *task = [manager dataTaskWithRequest:request uploadProgress:nil downloadProgress:nil completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
@@ -254,16 +278,7 @@
             completion(responseObject, error);
         } else {
             // succeed
-            if ([responseObject isKindOfClass:[NSArray class]]) {
-                // if response is an array, we make it an array of LCModelObject
-                NSArray *objects = [self.targetClass convertResultsToLCObjects:(NSArray *)responseObject];
-                completion(objects, nil);
-            } else if ([responseObject isKindOfClass:[NSDictionary class]]) {
-                // if response is a dictionary, we transform it to LCModelObject
-                LCModelObject *object = [[self.targetClass alloc] initWithStorage:responseObject];
-                completion(object, nil);
-            }
-            
+            completion(responseObject, nil);
         }
     }];
     

@@ -1,12 +1,25 @@
+// Created by Derrick Chao on 2015/2/25.
+// Copyright (c) 2017 Loopd Inc.
 //
-//  LCModelObject.m
-//  Loopd
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
 //
-//  Created by Derrick Chao on 2015/2/25.
-//  Copyright (c) 2015年 Loopd Inc. All rights reserved.
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
 //
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
 
-#import <AFNetworking/AFNetworking.h>
+#import "AFNetworking.h"
 #import "LCModelObject.h"
 #import "LCSettings.h"
 #import "LCModelObject+LocalStorage.h"
@@ -32,7 +45,7 @@
         [self.storage setDictionary:storage];
         
         // this method can't transfer the data to date object or custom object.
-//        [self setValuesForKeysWithDictionary:storage];
+        //        [self setValuesForKeysWithDictionary:storage];
     }
     
     return self;
@@ -116,11 +129,11 @@
         Class propertyClass = NSClassFromString(propertyType);
         id o = [[self storage] objectForKey:objectKey];
         
-//        NSLog(@"propertyName: %@", propertyName);
-//        NSLog(@"propertyClass: %@", propertyClass);
-//        NSLog(@"o class: %@", [o class]);
-//        NSLog(@"o: %@", o);
-    
+        //        NSLog(@"propertyName: %@", propertyName);
+        //        NSLog(@"propertyClass: %@", propertyClass);
+        //        NSLog(@"o class: %@", [o class]);
+        //        NSLog(@"o: %@", o);
+        
         if ([propertyClass isSubclassOfClass:[LCModelObject class]] && self.isFromLocal == YES && [o isKindOfClass:[NSString class]]) {
             NSArray *results = [self.class findFromLocalByModelName:propertyType key:@"id" equalTo:o];
             
@@ -165,6 +178,22 @@
                 return oArray;
             }
         }
+        else if ([propertyClass isSubclassOfClass:[LCObject class]]) {
+            if ([o isKindOfClass:[NSString class]]) {
+                NSDictionary *dictFromString = [LCObject dictionaryFromJSONString:o];
+                id propertyObject = [propertyClass new];
+                [propertyObject setValuesForKeysWithDictionary:dictFromString];
+                
+                return propertyObject;
+            }
+            
+            if ([o isKindOfClass:[NSDictionary class]]) {
+                LCObject *object = [propertyClass new];
+                [object setValuesForKeysWithDictionary:o];
+                
+                return object;
+            }
+        }
         else if (![o isKindOfClass:propertyClass]) {
             if (o == [NSNull null] || o == nil) {
                 return nil;
@@ -189,22 +218,6 @@
             if (targetId) {
                 NSArray *results = [self.class findFromLocalByModelName:propertyType key:@"id" equalTo:targetId];
                 o = results.firstObject;
-            }
-        }
-        else if ([propertyClass isSubclassOfClass:[LCObject class]]) {
-            if ([o isKindOfClass:[NSString class]]) {
-                NSDictionary *dictFromString = [LCObject dictionaryFromJSONString:o];
-                id propertyObject = [propertyClass new];
-                [propertyObject setValuesForKeysWithDictionary:dictFromString];
-                
-                return propertyObject;
-            }
-            
-            if ([o isKindOfClass:[NSDictionary class]]) {
-                LCObject *object = [propertyClass new];
-                [object setValuesForKeysWithDictionary:o];
-                
-                return object;
             }
         }
         
@@ -298,7 +311,7 @@
 }
 
 - (Class)objectTypeOfArrayProperty:(NSString *)propertyName {
-    // overwrite this method if subclass has array property 
+    // overwrite this method if subclass has array property
     
     return nil;
 }
@@ -328,7 +341,7 @@
 }
 
 + (LCQuery *)queryWithRequestMethod:(LCRequestMethod)requestMethod relatedPath:(NSString *)relatedPath parameters:(NSDictionary *)parameters {
-    LCQuery *query = [LCQuery queryWithClass:[self class] requestMethod:requestMethod relatedPath:relatedPath parameters:parameters];
+    LCQuery *query = [LCQuery queryWithRequestMethod:requestMethod relatedPath:relatedPath parameters:parameters];
     return query;
 }
 

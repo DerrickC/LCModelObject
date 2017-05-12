@@ -1,10 +1,24 @@
+// Created by Derrick Chao on 2015/5/6.
+// Copyright (c) 2017 Loopd Inc.
 //
-//  LoopdRequest.h
-//  Loopd
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
 //
-//  Created by Derrick Chao on 2015/5/6.
-//  Copyright (c) 2015 Loopd Inc. All rights reserved.
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
 //
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
 
 #import <Foundation/Foundation.h>
 
@@ -28,27 +42,28 @@ typedef void (^LCVoidCompletion)(void);
 
 @property (nonatomic) LCRequestMethod requestMethod;
 @property (nonatomic) NSTimeInterval timeoutInterval;
-@property (strong, nonatomic) NSString *relatedPath;
+@property (strong, nonatomic) NSString *requestUrl;
 @property (strong, nonatomic) NSMutableDictionary *header;
 @property (strong, nonatomic) NSMutableDictionary *parameters;
 @property (strong, nonatomic) NSData *appendData;
 
 
 // init
-+ (instancetype)queryWithClass:(Class)class;
-+ (instancetype)queryWithClass:(Class)class requestMethod:(LCRequestMethod)requestMethod;
-+ (instancetype)queryWithClass:(Class)class requestMethod:(LCRequestMethod)requestMethod relatedPath:(NSString *)relatedPath;
-+ (instancetype)queryWithClass:(Class)class requestMethod:(LCRequestMethod)requestMethod relatedPath:(NSString *)relatedPath parameters:(NSDictionary *)parameters;
-- (instancetype)initWithClass:(Class)class requestMethod:(LCRequestMethod)requestMethod relatedPath:(NSString *)relatedPath parameters:(NSDictionary *)parameters;
++ (instancetype)query;
++ (instancetype)queryWithRequestMethod:(LCRequestMethod)requestMethod;
++ (instancetype)queryWithRequestMethod:(LCRequestMethod)requestMethod relatedPath:(NSString *)relatedPath;
++ (instancetype)queryWithRequestMethod:(LCRequestMethod)requestMethod relatedPath:(NSString *)relatedPath parameters:(NSDictionary *)parameters;
++ (instancetype)queryWithRequestMethod:(LCRequestMethod)requestMethod url:(NSString *)url parameters:(NSDictionary *)parameters;
+- (instancetype)initWithRequestMethod:(LCRequestMethod)requestMethod url:(NSString *)url parameters:(NSDictionary *)parameters;
 
 // class method
 + (void)setBaseURL:(NSString *)baseURL;
 + (NSString *)baseURL;
 
 // default header
-+ (void)setDefaultValue:(NSString *)value forHeaderField:(NSString *)headerField;
-+ (void)setDefaultHeaderFields:(NSDictionary *)headerFields;
-+ (NSDictionary *)defaultHeaderFields;
++ (void)setDefaultHeaderValue:(NSString *)value forKey:(NSString *)key;
++ (void)setDefaultHeaderValues:(NSDictionary *)values;
++ (NSDictionary *)defaultHeaderValues;
 
 // default parameter
 + (void)setDefaultParameter:(NSString *)parameter forKey:(NSString *)key;

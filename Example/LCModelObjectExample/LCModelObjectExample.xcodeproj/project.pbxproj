@@ -13,12 +13,12 @@
 		074672E11E52E12700D9B068 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 074672E01E52E12700D9B068 /* Assets.xcassets */; };
 		074672E41E52E12700D9B068 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 074672E21E52E12700D9B068 /* LaunchScreen.storyboard */; };
 		074672EF1E52E12700D9B068 /* LCModelObjectExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 074672EE1E52E12700D9B068 /* LCModelObjectExampleTests.m */; };
-		074673041E52E15F00D9B068 /* LCModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 074672FB1E52E15F00D9B068 /* LCModelObject.m */; };
-		074673051E52E15F00D9B068 /* LCModelObject+LocalStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 074672FD1E52E15F00D9B068 /* LCModelObject+LocalStorage.m */; };
-		074673061E52E15F00D9B068 /* LCObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 074672FF1E52E15F00D9B068 /* LCObject.m */; };
-		074673071E52E15F00D9B068 /* LCQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 074673011E52E15F00D9B068 /* LCQuery.m */; };
-		074673081E52E15F00D9B068 /* LCSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 074673031E52E15F00D9B068 /* LCSettings.m */; };
 		074673461E52E27500D9B068 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 074673451E52E27500D9B068 /* ViewController.xib */; };
+		6613BB0E1EC587AE007FF53C /* LCModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 6613BB051EC587AE007FF53C /* LCModelObject.m */; };
+		6613BB0F1EC587AE007FF53C /* LCModelObject+LocalStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6613BB071EC587AE007FF53C /* LCModelObject+LocalStorage.m */; };
+		6613BB101EC587AE007FF53C /* LCObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 6613BB091EC587AE007FF53C /* LCObject.m */; };
+		6613BB111EC587AE007FF53C /* LCQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 6613BB0B1EC587AE007FF53C /* LCQuery.m */; };
+		6613BB121EC587AE007FF53C /* LCSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 6613BB0D1EC587AE007FF53C /* LCSettings.m */; };
 		CB266AB3F484B74E7B4ECA24 /* libPods-LCModelObjectExampleTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 34569586258017938A76B737 /* libPods-LCModelObjectExampleTests.a */; };
 		E9E21779D78811CDEF30CE68 /* libPods-LCModelObjectExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B6B50B28641360AC00B9AF1B /* libPods-LCModelObjectExample.a */; };
 /* End PBXBuildFile section */
@@ -46,19 +46,19 @@
 		074672EA1E52E12700D9B068 /* LCModelObjectExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LCModelObjectExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		074672EE1E52E12700D9B068 /* LCModelObjectExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LCModelObjectExampleTests.m; sourceTree = "<group>"; };
 		074672F01E52E12700D9B068 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		074672FA1E52E15F00D9B068 /* LCModelObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LCModelObject.h; path = ../../Pod/Classes/LCModelObject.h; sourceTree = "<group>"; };
-		074672FB1E52E15F00D9B068 /* LCModelObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LCModelObject.m; path = ../../Pod/Classes/LCModelObject.m; sourceTree = "<group>"; };
-		074672FC1E52E15F00D9B068 /* LCModelObject+LocalStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "LCModelObject+LocalStorage.h"; path = "../../Pod/Classes/LCModelObject+LocalStorage.h"; sourceTree = "<group>"; };
-		074672FD1E52E15F00D9B068 /* LCModelObject+LocalStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "LCModelObject+LocalStorage.m"; path = "../../Pod/Classes/LCModelObject+LocalStorage.m"; sourceTree = "<group>"; };
-		074672FE1E52E15F00D9B068 /* LCObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LCObject.h; path = ../../Pod/Classes/LCObject.h; sourceTree = "<group>"; };
-		074672FF1E52E15F00D9B068 /* LCObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LCObject.m; path = ../../Pod/Classes/LCObject.m; sourceTree = "<group>"; };
-		074673001E52E15F00D9B068 /* LCQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LCQuery.h; path = ../../Pod/Classes/LCQuery.h; sourceTree = "<group>"; };
-		074673011E52E15F00D9B068 /* LCQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LCQuery.m; path = ../../Pod/Classes/LCQuery.m; sourceTree = "<group>"; };
-		074673021E52E15F00D9B068 /* LCSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LCSettings.h; path = ../../Pod/Classes/LCSettings.h; sourceTree = "<group>"; };
-		074673031E52E15F00D9B068 /* LCSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LCSettings.m; path = ../../Pod/Classes/LCSettings.m; sourceTree = "<group>"; };
 		074673451E52E27500D9B068 /* ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
 		1002A64DA55ED2B38D616443 /* Pods-LCModelObjectExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LCModelObjectExampleTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LCModelObjectExampleTests/Pods-LCModelObjectExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		34569586258017938A76B737 /* libPods-LCModelObjectExampleTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LCModelObjectExampleTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6613BB041EC587AE007FF53C /* LCModelObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LCModelObject.h; path = ../../Pod/Classes/LCModelObject.h; sourceTree = "<group>"; };
+		6613BB051EC587AE007FF53C /* LCModelObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LCModelObject.m; path = ../../Pod/Classes/LCModelObject.m; sourceTree = "<group>"; };
+		6613BB061EC587AE007FF53C /* LCModelObject+LocalStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "LCModelObject+LocalStorage.h"; path = "../../Pod/Classes/LCModelObject+LocalStorage.h"; sourceTree = "<group>"; };
+		6613BB071EC587AE007FF53C /* LCModelObject+LocalStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "LCModelObject+LocalStorage.m"; path = "../../Pod/Classes/LCModelObject+LocalStorage.m"; sourceTree = "<group>"; };
+		6613BB081EC587AE007FF53C /* LCObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LCObject.h; path = ../../Pod/Classes/LCObject.h; sourceTree = "<group>"; };
+		6613BB091EC587AE007FF53C /* LCObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LCObject.m; path = ../../Pod/Classes/LCObject.m; sourceTree = "<group>"; };
+		6613BB0A1EC587AE007FF53C /* LCQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LCQuery.h; path = ../../Pod/Classes/LCQuery.h; sourceTree = "<group>"; };
+		6613BB0B1EC587AE007FF53C /* LCQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LCQuery.m; path = ../../Pod/Classes/LCQuery.m; sourceTree = "<group>"; };
+		6613BB0C1EC587AE007FF53C /* LCSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LCSettings.h; path = ../../Pod/Classes/LCSettings.h; sourceTree = "<group>"; };
+		6613BB0D1EC587AE007FF53C /* LCSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LCSettings.m; path = ../../Pod/Classes/LCSettings.m; sourceTree = "<group>"; };
 		9E7143393F601891AFCB8A2F /* Pods-LCModelObjectExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LCModelObjectExampleTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LCModelObjectExampleTests/Pods-LCModelObjectExampleTests.release.xcconfig"; sourceTree = "<group>"; };
 		A290341ED7EFFBD462A0D2A2 /* Pods-LCModelObjectExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LCModelObjectExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-LCModelObjectExample/Pods-LCModelObjectExample.release.xcconfig"; sourceTree = "<group>"; };
 		B6B50B28641360AC00B9AF1B /* libPods-LCModelObjectExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LCModelObjectExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -142,16 +142,16 @@
 		074672F91E52E14C00D9B068 /* LCModelObject */ = {
 			isa = PBXGroup;
 			children = (
-				074672FA1E52E15F00D9B068 /* LCModelObject.h */,
-				074672FB1E52E15F00D9B068 /* LCModelObject.m */,
-				074672FC1E52E15F00D9B068 /* LCModelObject+LocalStorage.h */,
-				074672FD1E52E15F00D9B068 /* LCModelObject+LocalStorage.m */,
-				074672FE1E52E15F00D9B068 /* LCObject.h */,
-				074672FF1E52E15F00D9B068 /* LCObject.m */,
-				074673001E52E15F00D9B068 /* LCQuery.h */,
-				074673011E52E15F00D9B068 /* LCQuery.m */,
-				074673021E52E15F00D9B068 /* LCSettings.h */,
-				074673031E52E15F00D9B068 /* LCSettings.m */,
+				6613BB041EC587AE007FF53C /* LCModelObject.h */,
+				6613BB051EC587AE007FF53C /* LCModelObject.m */,
+				6613BB061EC587AE007FF53C /* LCModelObject+LocalStorage.h */,
+				6613BB071EC587AE007FF53C /* LCModelObject+LocalStorage.m */,
+				6613BB081EC587AE007FF53C /* LCObject.h */,
+				6613BB091EC587AE007FF53C /* LCObject.m */,
+				6613BB0A1EC587AE007FF53C /* LCQuery.h */,
+				6613BB0B1EC587AE007FF53C /* LCQuery.m */,
+				6613BB0C1EC587AE007FF53C /* LCSettings.h */,
+				6613BB0D1EC587AE007FF53C /* LCSettings.m */,
 			);
 			name = LCModelObject;
 			sourceTree = "<group>";
@@ -231,6 +231,7 @@
 				TargetAttributes = {
 					074672D01E52E12700D9B068 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 6NEY7XRXTM;
 						ProvisioningStyle = Automatic;
 					};
 					074672E91E52E12700D9B068 = {
@@ -377,14 +378,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				074673051E52E15F00D9B068 /* LCModelObject+LocalStorage.m in Sources */,
+				6613BB0F1EC587AE007FF53C /* LCModelObject+LocalStorage.m in Sources */,
 				074672DC1E52E12700D9B068 /* ViewController.m in Sources */,
-				074673041E52E15F00D9B068 /* LCModelObject.m in Sources */,
+				6613BB0E1EC587AE007FF53C /* LCModelObject.m in Sources */,
 				074672D91E52E12700D9B068 /* AppDelegate.m in Sources */,
 				074672D61E52E12700D9B068 /* main.m in Sources */,
-				074673071E52E15F00D9B068 /* LCQuery.m in Sources */,
-				074673061E52E15F00D9B068 /* LCObject.m in Sources */,
-				074673081E52E15F00D9B068 /* LCSettings.m in Sources */,
+				6613BB111EC587AE007FF53C /* LCQuery.m in Sources */,
+				6613BB101EC587AE007FF53C /* LCObject.m in Sources */,
+				6613BB121EC587AE007FF53C /* LCSettings.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -513,9 +514,10 @@
 			baseConfigurationReference = F5B7422E04065A6532C7D5D2 /* Pods-LCModelObjectExample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 6NEY7XRXTM;
 				INFOPLIST_FILE = LCModelObjectExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.loopd.LCModelObjectExample.LCModelObjectExample;
+				PRODUCT_BUNDLE_IDENTIFIER = com.loopd.LCModelObjectExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -525,9 +527,10 @@
 			baseConfigurationReference = A290341ED7EFFBD462A0D2A2 /* Pods-LCModelObjectExample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 6NEY7XRXTM;
 				INFOPLIST_FILE = LCModelObjectExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.loopd.LCModelObjectExample.LCModelObjectExample;
+				PRODUCT_BUNDLE_IDENTIFIER = com.loopd.LCModelObjectExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
